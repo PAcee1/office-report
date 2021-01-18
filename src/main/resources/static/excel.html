@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传Excel实现在线预览</title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>点击、拖拽上传Excel——实现在线预览</legend>
+</fieldset>
+
+<div class="layui-upload-drag" id="uploadExcel">
+    <i class="layui-icon"></i>
+    <p>点击上传，或将文件拖拽到此处</p>
+</div>
+
+<script src="layui/layui.js"></script>
+<script>
+    layui.use(['layer', 'upload'], function(){
+        let $ = layui.jquery
+            ,upload = layui.upload
+            ,layer = layui.layer;
+
+        //拖拽上传
+        upload.render({
+            elem: '#uploadExcel'
+            ,url: 'upload'
+            ,accept: 'file' //普通文件
+            ,exts: 'xlsx' //只允许上传压缩文件
+            ,done: function(res){
+                if (0 === res.code) {
+                    layer.msg(res.msg, {icon: 2});
+                    open('exceltohtml.html?sheetNo=0&fileName=' + res.fileName);
+                } else {
+                    layer.msg(res.msg, {icon: 5});
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

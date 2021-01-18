@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>上传Excel实现在线预览</title>
+    <link rel="stylesheet" href="css/exceltohtml.css"  media="all">
+</head>
+<body>
+<!-- 顶部功能区 -->
+<div class="previewhead">
+    <div class="filename">
+        <span id="attach_name"></span>
+    </div>
+    <div class="operation">
+        <!--<span>最大列数：200</span>-->
+        <button class="download-excel" type="button" data-dl="" onclick="downloadExcel()">
+            <span class="dl-icon"></span><span>Excel导出</span>
+        </button>
+        <button class="download-excel" type="button" data-dl="" onclick="downloadPdf()">
+            <span class="dl-icon"></span><span>Pdf导出</span>
+        </button>
+    </div>
+</div>
+<!-- 主体内容 -->
+<iframe id="sheet" src="" name="frSheet" frameborder="0" scrolling="yes"></iframe>
+<!-- 底部sheet页 -->
+<!--<div class="tab-sheet">
+</div>-->
+<!-- 加载动画 -->
+<!--<div id="loading">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div class="object" id="first_object"></div>
+            <div class="object" id="second_object"></div>
+            <div class="object" id="third_object"></div>
+            <div class="object" id="forth_object"></div>
+        </div>
+    </div>
+</div>-->
+<script src="js/jquery-3.4.1.min.js"></script>
+<script>
+    // 文件名
+    //let fileName = getUrlParam('fileName');
+    //$('#attach_name').text(fileName);
+
+    // 内容高度
+    $('#sheet').css({
+        'height': $(window).height()+ 'px'
+    })
+
+    showHtml();  // 显示html
+    /**
+     * 根据sheet页编号显示对应的sheet页内容
+     * @param sheetNo
+     */
+    function showHtml() {
+        $("#sheet").attr("src", 'preview/getHtml');//JQuery动态加载iframe。
+        //hideLoading();
+        /*$.ajax({
+            url: 'preview/getHtml',
+            //data: {fileName: fileName},
+            success: function (res) {
+                debugger;
+                if (200 === res.status) {
+                    let data = res.data;
+                    $("#sheet").attr("src",data);
+                    hideLoading();
+                    /!*for (let i in data) {
+                        $('.tab-sheet').append('<a class="' + (i == 0 ? 'active' : '' ) + '">' + data[i] + '</a>');
+                    }*!/
+                }
+            }
+        });*/
+        //
+    }
+
+    /**
+     * 隐藏加载动画
+     */
+    function hideLoading() {
+        $("#loading").fadeOut(500);
+    }
+
+    /**
+     * 下载excel事件方法
+     */
+    function downloadExcel() {
+        window.location.href = 'download/excel';
+    }
+
+    /**
+     * 下载excel事件方法
+     */
+    function downloadPdf() {
+        window.location.href = 'download/pdf';
+    }
+
+    /* 下载按钮动画 */
+    /*document.addEventListener("DOMContentLoaded",function(){
+        this.addEventListener("click",function (){
+            let tar = e.target;
+            if (tar.hasAttribute("data-dl")) {
+                let dlClass = "dl-working";
+                if (!tar.classList.contains(dlClass)) {
+                    let lastSpan = tar.querySelector("span:last-child"),
+                        lastSpanText = lastSpan.textContent,
+                        timeout = getMSFromProperty("--dur",":root");
+
+                    tar.classList.add(dlClass);
+                    lastSpan.textContent = "下载中…";
+                    tar.disabled = true;
+
+                    setTimeout(() => {
+                        lastSpan.textContent = "完成!";
+                    },timeout * 0.9);
+
+                    setTimeout(() => {
+                        tar.classList.remove(dlClass);
+                        lastSpan.textContent = lastSpanText;
+                        tar.disabled = false;
+                    },timeout + 1e3);
+                }
+            }
+        });
+    });*/
+    function getMSFromProperty(property,selector) {
+        let cs = window.getComputedStyle(document.querySelector(selector)),
+            transDur = cs.getPropertyValue(property),
+            msLabelPos = transDur.indexOf("ms"),
+            sLabelPos = transDur.indexOf("s");
+
+        if (msLabelPos > -1)
+            return transDur.substr(0,msLabelPos);
+        else if (sLabelPos > -1)
+            return transDur.substr(0,sLabelPos) * 1e3;
+    }
+
+
+
+    /**
+     * 获取url参数值
+     * @param name 参数名
+     * @returns {string|null}
+     */
+     /*function getUrlParam(name) {
+        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        let r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return decodeURI(r[2]); return null; //返回参数值  (decodeURI解决参数乱码问题)
+    }*/
+</script>
+
+</body>
+</html>
