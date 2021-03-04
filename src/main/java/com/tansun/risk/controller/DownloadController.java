@@ -3,6 +3,8 @@ package com.tansun.risk.controller;
 import com.tansun.risk.service.ConvertService;
 import com.tansun.risk.service.ProcessService;
 import com.tansun.risk.utils.FileUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,8 @@ import java.net.URLEncoder;
 @RequestMapping("/download")
 public class DownloadController {
 
+    private final Logger log = LoggerFactory.getLogger(DownloadController.class);
+
     @Autowired
     private ProcessService processService;
     @Autowired
@@ -39,6 +43,7 @@ public class DownloadController {
         // 判断已处理文件是否存在
         String orgName = "a.xlsx";
         String filePath = FileUtil.getLastFilePath(orgName);
+        log.info("下载Excel地址：" + filePath);
         FileUtil.download(filePath,response);
     }
 
@@ -50,6 +55,7 @@ public class DownloadController {
         File file = new File(filePath);
         // 转换成pdf
         String pdfPath = filePath.substring(0,filePath.lastIndexOf(".") + 1) + "pdf";
+        log.info("下载Pdf地址：" + pdfPath);
         service.convertExcelToPDFByFitColumn(file,new File(pdfPath));
         // 输出pdfPath
         FileUtil.download(pdfPath,response);

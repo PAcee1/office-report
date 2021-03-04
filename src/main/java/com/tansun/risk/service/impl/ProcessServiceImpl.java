@@ -42,7 +42,7 @@ public class ProcessServiceImpl implements ProcessService {
         // 1.根据report名称查库
         // 直接用本地的
         //String path = "D:\\temp\\a.xlsx";
-        String orgName = reportPath.substring(reportPath.lastIndexOf("\\") + 1);
+        String orgName = reportPath.substring(reportPath.lastIndexOf("/") + 1);
         // 2.查数据 模拟数据
         createDataMap();
 

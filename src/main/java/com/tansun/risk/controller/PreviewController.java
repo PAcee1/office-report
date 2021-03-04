@@ -44,7 +44,8 @@ public class PreviewController {
     @GetMapping("getHtml")
     public void getHtml(HttpServletResponse response){
         // 先用测试Excel，TODO 从数据库中查xlsx
-        String reportName = "D:\\temp\\a.xlsx";
+        //String reportName = "D:/temp/a.xlsx";
+        String reportName = "/home/riskdemo03/openoffice/a.xlsx";
         // 处理Excel，获取保存路径
         String filePath = processService.wideDeal(reportName, response);
         if(filePath.equals("error")){
@@ -57,7 +58,8 @@ public class PreviewController {
         String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf("."));
         String htmlPath = filePath.substring(0, filePath.lastIndexOf("/") + 1);
         htmlPath = htmlPath + fileName + ".html";
-
+        log.info("处理后的Excel地址：" + filePath);
+        log.info("处理后的Html地址：" + htmlPath);
         // 转换，获取转换后的html代码
         String resultHtml = service.convert(new File(filePath),new File(htmlPath),true);
         // 打印html代码到页面

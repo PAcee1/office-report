@@ -1,9 +1,6 @@
 package com.tansun.risk.service;
 
-import com.tansun.risk.utils.JsonResult;
-
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 
 /**
  * <p></p>
